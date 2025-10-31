@@ -1,0 +1,37 @@
+{
+    "extends": "next/core-web-vitals",
+    "ignorePatterns": [
+        "app/generated/**",
+        "**/generated/**",
+        "node_modules/**"
+    ],
+    "rules": {
+        "@typescript-eslint/no-unused-expressions": [
+            "error",
+            {
+                "allowShortCircuit": true,
+                "allowTernary": true
+            }
+        ]
+    },
+    "overrides": [
+        {
+            "files": [
+                "app/generated/**",
+                "**/generated/**",
+                "**/node_modules/**/*",
+                "app/generated/prisma/**",
+                "**/generated/prisma/**",
+                "**/*.wasm.js",
+                "**/wasm.js"
+            ],
+            "rules": {
+                "@typescript-eslint/no-unused-vars": "off",
+                "@typescript-eslint/no-unused-expressions": "off",
+                "@typescript-eslint/no-this-alias": "off",
+                "@typescript-eslint/no-require-imports": "off",
+                "@typescript-eslint/no-explicit-any": "off"
+            }
+        }
+    ]
+}

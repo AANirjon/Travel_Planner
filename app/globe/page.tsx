@@ -13,7 +13,7 @@ export interface TransformedLocation {
 }
 
 export default function GlobePage() {
-  const globeRef = useRef<GlobeMethods | null>(null);
+  const globeRef = useRef<GlobeMethods | undefined>(undefined);
   const [locations, setLocations] = useState<TransformedLocation[]>([]);
   const [visitedCountries, setVisitedCountries] = useState<Set<string>>(new Set());
   const [isLoading, setIsLoading] = useState(true);
@@ -56,7 +56,7 @@ export default function GlobePage() {
           {/* Globe Section */}
           <div className="lg:col-span-2 bg-white rounded-xl shadow-lg overflow-hidden">
             <div className="p-6">
-              <h2 className="text-2xl font-semibold mb-4">See where you've been...</h2>
+              <h2 className="text-2xl font-semibold mb-4">See where you&apos;ve been...</h2>
               <div className="h-[600px] w-full">
                 {isLoading ? (
                   <div className="flex items-center justify-center h-full">
@@ -69,10 +69,10 @@ export default function GlobePage() {
                     bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
                     backgroundColor="rgba(0,0,0,0)"
                     pointsData={locations}
-                    pointLat={(d: TransformedLocation) => d.lat}
-                    pointLng={(d: TransformedLocation) => d.lng}
+                    pointLat={d => (d as TransformedLocation).lat}
+                    pointLng={d => (d as TransformedLocation).lng}
                     pointColor={() => "#FF5733"}
-                    pointLabel={(d: TransformedLocation) => d.name}
+                    pointLabel={d => (d as TransformedLocation).name}
                     pointAltitude={0.02}
                     pointRadius={0.5}
                     pointsMerge={true}
@@ -99,7 +99,7 @@ export default function GlobePage() {
                   <div className="space-y-4">
                     <div className="bg-blue-50 p-4 rounded-lg">
                       <p className="text-sm text-blue-800">
-                        You've visited{" "}
+                        You&apos;ve visited{" "}
                         <span className="font-bold">{visitedCountries.size}</span> countries.
                       </p>
                     </div>

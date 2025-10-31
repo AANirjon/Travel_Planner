@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -55,13 +54,11 @@ export default async function TripsPage() {
             {" "}
             {trips.length === 0
               ? "Start planning your first trip by clicking the button above."
-              : `You have ${trips.length} ${
-                  trips.length === 1 ? "trip" : "trips"
-                } planned. ${
-                  upcomingTrips.length > 0
-                    ? `${upcomingTrips.length} upcoming.`
-                    : ""
-                } `}
+              : `You have ${trips.length} ${trips.length === 1 ? "trip" : "trips"
+              } planned. ${upcomingTrips.length > 0
+                ? `${upcomingTrips.length} upcoming.`
+                : ""
+              } `}
           </p>
         </CardContent>
       </Card>

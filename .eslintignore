@@ -1,0 +1,8 @@
+# Ignore generated Prisma client and wasm runtime
+app/generated/**
+app/generated/prisma/**
+app/generated/prisma/**/*.js
+app/generated/prisma/runtime/**
+
+# Node modules
+node_modules/

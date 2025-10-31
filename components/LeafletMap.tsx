@@ -1,9 +1,10 @@
-"use client"; // make sure this is client-side
+"use client";
 
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { Location } from "@/app/generated/prisma";
+
 
 interface MapProps {
   itineraries: Location[];
@@ -24,15 +25,18 @@ export default function LeafletMap({ itineraries }: MapProps) {
       : { lat: 0, lng: 0 };
 
   return (
-    <MapContainer center={center} zoom={8} style={{ width: "100%", height: "100%" }}>
+    <MapContainer
+      center={[center.lat, center.lng] as [number, number]}
+      zoom={8}
+      style={{ width: "100%", height: "100%" }}
+    >
       <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {itineraries.map((location, idx) => (
         <Marker
           key={idx}
-          position={{ lat: location.lat, lng: location.lng }}
+          position={[location.lat, location.lng] as [number, number]}
           icon={defaultIcon}
         >
           <Popup>{location.locationTitle}</Popup>
