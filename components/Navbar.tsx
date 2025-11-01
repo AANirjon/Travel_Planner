@@ -40,8 +40,8 @@ export default function Navbar({ session }: { session: Session | null }) {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-[var(--background)]/60 dark:bg-[var(--card)]/60 border-b border-[var(--border)]/60">
-      <div className="max-w-7xl mx-auto flex justify-between items-center px-4 py-3">
+    <nav className="fixed top-0 left-0 right-0 z-[100] h-[57px] backdrop-blur-md bg-[var(--background)]/95 dark:bg-[var(--card)]/95 border-b border-[var(--border)]">
+      <div className="max-w-7xl mx-auto flex justify-between items-center h-full px-4">
         <Link href="/" className="flex items-center gap-3">
           <div className="rounded-md overflow-hidden w-10 h-10 flex items-center justify-center bg-[var(--card)]">
             <Image src="/logo.png" alt="logo" width={36} height={36} />

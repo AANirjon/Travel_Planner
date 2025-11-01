@@ -1,95 +1,105 @@
 import { NextResponse } from "next/server";
 
-type Message = { role: "user" | "assistant" | "system"; content: string };
+// Define the structure for a message part
+type Part = { text: string };
+
+// Define the structure for a content block in the API request
+type Content = {
+    role: "user" | "model"; // Gemini API uses 'model' for the assistant role
+    parts: Part[];
+};
+
+// Define the incoming message type from the frontend
+type IncomingMessage = {
+    role: "user" | "assistant" | "system";
+    content: string;
+};
+
+// BEST PRACTICE: Use a modern, chat-optimized Gemini model.
+const DEFAULT_MODEL = "gemini-2.5-flash-preview-09-2025"; 
+
+// MAX_OUTPUT_TOKENS for gemini-2.5-flash is 8192. We use this to prevent truncation.
+const MAX_OUTPUT_TOKENS = 8192; 
 
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const messages: Message[] = body.messages || [];
+        const incomingMessages: IncomingMessage[] = body.messages || [];
 
         const apiKey = process.env.GEMINI_API_KEY;
-        const model = process.env.GEMINI_MODEL || "text-bison-001";
+        const model = process.env.GEMINI_MODEL || DEFAULT_MODEL;
 
         if (!apiKey) {
-            return NextResponse.json({ error: "GEMINI_API_KEY not set" }, { status: 500 });
+            return NextResponse.json({ error: "GEMINI_API_KEY not set in environment." }, { status: 500 });
         }
 
-        // Build a single prompt from the conversation. Keep it simple for now.
-        const systemPart = messages
+        // --- Convert history to native Gemini 'contents' array and extract system instruction ---
+
+        const systemInstruction = incomingMessages
             .filter((m) => m.role === "system")
             .map((m) => m.content)
             .join("\n");
 
-        const conversationPart = messages
-            .filter((m) => m.role !== "system")
-            .map((m) => `${m.role === "user" ? "User" : "Assistant"}: ${m.content}`)
-            .join("\n");
+        const contents: Content[] = incomingMessages
+            .filter((m) => m.role === "user" || m.role === "assistant")
+            .map((m) => ({
+                // Map frontend 'assistant' role to backend 'model' role
+                role: m.role === "assistant" ? "model" : m.role,
+                parts: [{ text: m.content }],
+            })) as Content[];
 
-        const promptText = [systemPart, conversationPart].filter(Boolean).join("\n\n");
+        // =================================================================
+        // API Call Payload
+        // =================================================================
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
-        const tryGenerate = async (modelName: string) => {
-            const url = `https://generativelanguage.googleapis.com/v1/models/${modelName}:generateContent?key=${apiKey}`;
+        const apiPayload = {
+            contents: contents, 
+            
+            // Apply system instruction if available
+            systemInstruction: systemInstruction ? { parts: [{ text: systemInstruction }] } : undefined,
 
-            return await fetch(url, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    contents: [{
-                        role: "user",
-                        parts: [{ text: promptText }]
-                    }],
-                    generationConfig: {
-                        temperature: 0.2,
-                        maxOutputTokens: 512,
-                    },
-                }),
-            });
+            generationConfig: {
+                temperature: 0.2,
+                // FIX: Setting maxOutputTokens to the absolute maximum (8192)
+                // This resolves the MAX_TOKENS error unless the conversation history itself is excessively long.
+                maxOutputTokens: MAX_OUTPUT_TOKENS, 
+            },
+            // Enable search grounding for the Travel Planner context
+            tools: [{ "google_search": {} }],
         };
 
-        // Try the configured model first. If user passed a name like "text-bison-001" this works.
-        let res = await tryGenerate(model);
-
-        // If not found, try some common fallbacks (prefix/suffix variations).
-        if (res.status === 404) {
-            // Try with and without 'models/' prefix
-            const modelToTry = model.startsWith("models/") ? model.replace(/^models\//, "") : `models/${model}`;
-            try {
-                res = await tryGenerate(modelToTry);
-            } catch {
-                // ignore and continue with error handling
-            }
-        }
+        const res = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(apiPayload),
+        });
 
         if (!res.ok) {
             const status = res.status;
-            const errText = await res.text();
-
-            // If the model wasn't found, try to list available models to give a helpful message.
-            if (status === 404) {
-                try {
-                    const listUrl = `https://generativelanguage.googleapis.com/v1beta2/models?key=${apiKey}`;
-                    const listRes = await fetch(listUrl);
-                    const listData = await listRes.json();
-                    const names = (listData?.models || []).map((m: unknown) => {
-                        const mm = m as { name?: string; model?: string };
-                        return mm?.name || mm?.model || String(m);
-                    });
-                    return NextResponse.json({ error: 'Model not found', details: errText, availableModels: names }, { status: 404 });
-                } catch {
-                    return NextResponse.json({ error: 'Model not found', details: errText }, { status: 404 });
-                }
-            }
-
-            return NextResponse.json({ error: errText }, { status });
+            // Log full error on the server side
+            console.error(`Gemini API Error (Status ${status}):`, await res.text()); 
+            return NextResponse.json({ error: "Failed to communicate with the Gemini API." }, { status: status });
         }
 
         const data = await res.json();
 
-        // The response shape may vary; try to extract the main generated text.
-        const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || JSON.stringify(data);
+        // Robustly parse the response (Fixing the JSON output bug)
+        const generatedText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+        
+        if (generatedText) {
+            return NextResponse.json({ text: generatedText, raw: data });
+        } else {
+            // Handle cases where no text is returned (e.g., blocked content)
+            const finishReason = data?.candidates?.[0]?.finishReason || 'UNKNOWN';
+            return NextResponse.json({ 
+                error: `Model returned no text content. Reason: ${finishReason}`, 
+                raw: data 
+            }, { status: 500 });
+        }
 
-        return NextResponse.json({ text, raw: data });
     } catch (err) {
-        return NextResponse.json({ error: String(err) }, { status: 500 });
+        console.error("Internal Server Error:", err);
+        return NextResponse.json({ error: `Internal Server Error: ${String(err)}` }, { status: 500 });
     }
 }
