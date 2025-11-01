@@ -48,19 +48,19 @@ export default function GlobePage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
+    <div className="min-h-screen bg-[var(--background)]">
       <div className="container mx-auto px-4 py-12">
         <h1 className="text-center text-4xl font-bold mb-12">Your Travel Journey</h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
           {/* Globe Section */}
-          <div className="lg:col-span-2 bg-white rounded-xl shadow-lg overflow-hidden">
+          <div className="lg:col-span-2 bg-[var(--card)] text-[var(--card-foreground)] rounded-xl overflow-hidden border border-[var(--border)]">
             <div className="p-6">
               <h2 className="text-2xl font-semibold mb-4">See where you&apos;ve been...</h2>
               <div className="h-[600px] w-full">
                 {isLoading ? (
                   <div className="flex items-center justify-center h-full">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900" />
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--foreground)]" />
                   </div>
                 ) : (
                   <Globe
@@ -93,13 +93,13 @@ export default function GlobePage() {
               <CardContent>
                 {isLoading ? (
                   <div className="flex items-center justify-center h-full">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900" />
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--foreground)]" />
                   </div>
                 ) : (
                   <div className="space-y-4">
-                    <div className="bg-blue-50 p-4 rounded-lg">
-                      <p className="text-sm text-blue-800">
-                        You&apos;ve visited{" "}
+                    <div className="bg-[var(--input)] p-4 rounded-lg">
+                      <p className="text-sm text-[var(--foreground)]">
+                        You&apos;ve visited {" "}
                         <span className="font-bold">{visitedCountries.size}</span> countries.
                       </p>
                     </div>
@@ -110,7 +110,7 @@ export default function GlobePage() {
                         .map((country, idx) => (
                           <div
                             key={idx}
-                            className="flex items-center gap-2 p-3 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100"
+                            className="flex items-center gap-2 p-3 rounded-lg hover:bg-[var(--input)] transition-colors border border-[var(--border)]"
                           >
                             <MapPin className="h-4 w-4 text-red-500" />
                             <span className="font-medium">{country}</span>

@@ -24,7 +24,7 @@ export default function TripDetailClient({ trip }: TripDetailClientProps) {
   return (
     <div className="container mx-auto px-4 py-8 space-y-8">
       {trip.imageUrl && (
-        <div className="w-full h-72 md:h-96 overflow-hidden rounded-xl shadow-lg relative">
+        <div className="w-full h-72 md:h-96 overflow-hidden rounded-xl card-shadow relative">
           {" "}
           <Image
             src={trip.imageUrl}
@@ -35,14 +35,11 @@ export default function TripDetailClient({ trip }: TripDetailClientProps) {
           />
         </div>
       )}
-      <div className="bg-white p-6 shadow rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center">
+      <div className="bg-[var(--card)] text-[var(--card-foreground)] p-6 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center border border-[var(--border)]">
         <div>
-          <h1 className="text-4xl font-extrabold text-gray-900">
-            {" "}
-            {trip.title}
-          </h1>
+          <h1 className="text-4xl font-extrabold">{trip.title}</h1>
 
-          <div className="flex items-center text-gray-500 mt-2">
+          <div className="flex items-center text-[var(--muted-foreground)] mt-2">
             <Calendar className="h-5 w-5 mr-2" />
             <span className="text-lg">
               {trip.startDate.toLocaleDateString()} -{" "}
@@ -59,7 +56,7 @@ export default function TripDetailClient({ trip }: TripDetailClientProps) {
           </Link>
         </div>
       </div>
-      <div className="bg-white p-6 shadow rounded-lg">
+      <div className="bg-[var(--card)] text-[var(--card-foreground)] p-6 rounded-lg border border-[var(--border)]">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="mb-6">
             <TabsTrigger value="overview" className="text-lg">
@@ -79,22 +76,22 @@ export default function TripDetailClient({ trip }: TripDetailClientProps) {
                 <h2 className="text-2xl font-semibold mb-4"> Trip Summary</h2>
                 <div className="space-y-4">
                   <div className="flex items-start">
-                    <Calendar className="h-6 w-6 mr-3 text-gray-500" />
+                    <Calendar className="h-6 w-6 mr-3 text-[var(--muted-foreground)]" />
                     <div>
-                      <p className="font-medium text-gray-700"> Dates</p>
-                      <p className="text-sm text-gray-500">
+                      <p className="font-medium"> Dates</p>
+                      <p className="text-sm text-[var(--muted-foreground)]">
                         {trip.startDate.toLocaleDateString()} -{" "}
                         {trip.endDate.toLocaleDateString()}
                         <br />
                         {`${Math.round(
                           (trip.endDate.getTime() - trip.startDate.getTime()) /
-                            (1000 * 60 * 60 * 24)
+                          (1000 * 60 * 60 * 24)
                         )} days(s)`}
                       </p>
                     </div>
                   </div>
                   <div className="flex items-start">
-                    <MapPin className="h-6 w-6 mr-3 text-gray-500" />
+                    <MapPin className="h-6 w-6 mr-3 text-[var(--muted-foreground)]" />
                     <div>
                       <p> Destinations</p>
                       <p>
@@ -106,7 +103,7 @@ export default function TripDetailClient({ trip }: TripDetailClientProps) {
                   </div>
                 </div>
               </div>
-              <div className="h-72 rounded-lg overflow-hidden shadow">
+              <div className="h-72 rounded-lg overflow-hidden card-shadow">
                 <Map itineraries={trip.locations} />
               </div>
               {trip.locations.length === 0 && (
@@ -122,7 +119,7 @@ export default function TripDetailClient({ trip }: TripDetailClientProps) {
               )}
 
               <div>
-                <p className="text-gray-600 leading-relaxed">
+                <p className="leading-relaxed text-[var(--muted-foreground)]">
                   {trip.description}
                 </p>
               </div>
@@ -150,7 +147,7 @@ export default function TripDetailClient({ trip }: TripDetailClientProps) {
           </TabsContent>
 
           <TabsContent value="map" className="space-y-6">
-            <div className="h-72 rounded-lg overflow-hidden shadow">
+            <div className="h-72 rounded-lg overflow-hidden card-shadow">
               <Map itineraries={trip.locations} />
             </div>
             {trip.locations.length === 0 && (

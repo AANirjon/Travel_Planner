@@ -8,9 +8,9 @@ export default function NewLocationClient({ tripId }: { tripId: string }) {
   const [isPending, startTransation] = useTransition();
 
   return (
-    <div className="min-h-[calc(100vh-8rem)] flex items-center justify-center bg-gray-50">
+    <div className="min-h-[calc(100vh-8rem)] flex items-center justify-center bg-[var(--background)]">
       <div className="w-full max-w-md mx-auto">
-        <div className="bg-white p-8 shadow-lg rounded-lg">
+        <div className="bg-[var(--card)] p-8 rounded-lg border border-[var(--border)] card-shadow">
           <h1 className="text-3xl font-bold text-center mb-6">
             {" "}
             Add New Location
@@ -25,7 +25,7 @@ export default function NewLocationClient({ tripId }: { tripId: string }) {
             }}
           >
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-[var(--muted-foreground)] mb-2">
                 {" "}
                 Address
               </label>
@@ -33,7 +33,7 @@ export default function NewLocationClient({ tripId }: { tripId: string }) {
                 name="address"
                 type="text"
                 required
-                className="w-full border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-[var(--border)] px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--ring)]"
               />
             </div>
             <Button type="submit" className="w-full">

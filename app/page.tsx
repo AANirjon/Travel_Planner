@@ -12,20 +12,20 @@ export default async function LandingPage() {
       {/* Main Content */}
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative bg-gradient-to-b from-white to-blue-50 py-20 md:py-32">
+        <section className="relative bg-[var(--background)] py-20 md:py-32">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center">
               <h1 className="text-4xl md:text-6xl font-bold mb-6">
                 Plan your perfect trip, every time
               </h1>
-              <p className="text-xl md:text-2xl text-gray-600 mb-8">
+              <p className="text-xl md:text-2xl text-[var(--muted-foreground)] mb-8">
                 Create itineraries, organize destinations, and share your travel
                 plans all in one place.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <AuthButton
                   isLoggedIn={isLoggedIn}
-                  className="w-full sm:w-auto bg-black text-white hover:bg-gray-800 px-6 py-3 rounded-lg transition-colors duration-200 flex items-center justify-center"
+                  className="w-full sm:w-auto px-6 py-3 rounded-lg transition-colors duration-200 flex items-center justify-center bg-[var(--primary)] text-[var(--primary-foreground)] hover:bg-[var(--primary)]/90"
                 >
                   {isLoggedIn ? (
                     "Check it Out"
@@ -62,29 +62,29 @@ export default async function LandingPage() {
           </div>
           {/* Decorative Clipped Background at the Bottom */}
           <div
-            className="absolute bottom-0 left-0 right-0 h-24 bg-white"
+            className="absolute bottom-0 left-0 right-0 h-24 bg-[var(--background)]"
             style={{ clipPath: "polygon(0 100%, 100% 100%, 100% 0, 0 100%)" }}
           />
         </section>
 
         {/* Features Section */}
-        <section className="py-16 md:py-24 bg-white">
+        <section className="py-16 md:py-24 bg-[var(--background)]">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center mb-12">
               Plan with confidence
             </h2>
             <div className="grid md:grid-cols-3 gap-8">
-              <div className="p-6 rounded-lg border border-gray-100 shadow-sm bg-white">
+              <div className="p-6 rounded-lg border border-[var(--border)] card-shadow bg-[var(--card)] text-[var(--card-foreground)]">
                 <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-4">
                   <MapIcon className="h-6 w-6 text-primary" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Interactive Maps</h3>
-                <p className="text-gray-600">
+                <p className="text-[var(--muted-foreground)]">
                   Visualize your trip with interactive maps. See your entire
                   itinerary at a glance.
                 </p>
               </div>
-              <div className="p-6 rounded-lg border border-gray-100 shadow-sm bg-white">
+              <div className="p-6 rounded-lg border border-[var(--border)] card-shadow bg-[var(--card)] text-[var(--card-foreground)]">
                 <div className="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center mb-4">
                   <svg
                     className="h-6 w-6 text-travel-amber"
@@ -99,12 +99,12 @@ export default async function LandingPage() {
                 <h3 className="text-xl font-semibold mb-2">
                   Day-by-Day Itineraries
                 </h3>
-                <p className="text-gray-600">
+                <p className="text-[var(--muted-foreground)]">
                   Organize your trip day by day. Never miss a beat with
                   structured planning.
                 </p>
               </div>
-              <div className="p-6 rounded-lg border border-gray-100 shadow-sm bg-white">
+              <div className="p-6 rounded-lg border border-[var(--border)] card-shadow bg-[var(--card)] text-[var(--card-foreground)]">
                 <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mb-4">
                   <svg
                     className="h-6 w-6 text-green-500"
@@ -120,7 +120,7 @@ export default async function LandingPage() {
                 <h3 className="text-xl font-semibold mb-2">
                   Drag & Drop Planning
                 </h3>
-                <p className="text-gray-600">
+                <p className="text-[var(--muted-foreground)]">
                   Easily rearrange your itinerary with simple drag and drop
                   functionality.
                 </p>
@@ -130,18 +130,18 @@ export default async function LandingPage() {
         </section>
 
         {/* Call to Action Section */}
-        <section className="py-16 md:py-24 bg-gray-800">
+        <section className="py-16 md:py-24 bg-[var(--primary)]">
           <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+            <h2 className="text-3xl md:text-4xl font-bold text-[var(--primary-foreground)] mb-6">
               Ready to plan your next adventure?
             </h2>
-            <p className="text-xl text-blue-50 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-[var(--primary-foreground)] mb-8 max-w-2xl mx-auto">
               Join thousands of travelers who plan better trips with
               TripPlanner.
             </p>
             <AuthButton
               isLoggedIn={isLoggedIn}
-              className="inline-block bg-white text-gray-800 hover:bg-blue-50 px-6 py-3 rounded-lg transition-colors duration-200"
+              className="inline-block bg-[var(--card)] text-[var(--card-foreground)] hover:opacity-95 px-6 py-3 rounded-lg transition-colors duration-200"
             >
               {isLoggedIn ? "Check it out" : "Sign Up Now"}
             </AuthButton>

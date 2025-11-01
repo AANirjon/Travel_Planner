@@ -28,8 +28,7 @@ export default function NewTrip() {
             }}
           >
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                {" "}
+              <label className="block text-sm font-medium text-[var(--muted-foreground)] mb-1">
                 Title
               </label>
               <input
@@ -37,51 +36,52 @@ export default function NewTrip() {
                 name="title"
                 placeholder="Japan trip..."
                 className={cn(
-                  "w-full border border-gray-300 px-3 py-2",
-                  "rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  "w-full border border-[var(--border)] px-3 py-2",
+                  "rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--ring)]"
                 )}
                 required
               />
             </div>
+
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-[var(--muted-foreground)] mb-1">
                 Description
               </label>
               <textarea
                 name="description"
                 placeholder="Trip description..."
                 className={cn(
-                  "w-full border border-gray-300 px-3 py-2",
-                  "rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  "w-full border border-[var(--border)] px-3 py-2",
+                  "rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--ring)]"
                 )}
                 required
               />
             </div>
+
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-[var(--muted-foreground)] mb-1">
                   Start Date
                 </label>
                 <input
                   type="date"
                   name="startDate"
                   className={cn(
-                    "w-full border border-gray-300 px-3 py-2",
-                    "rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    "w-full border border-[var(--border)] px-3 py-2",
+                    "rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--ring)]"
                   )}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  {" "}
+                <label className="block text-sm font-medium text-[var(--muted-foreground)] mb-1">
                   End Date
                 </label>
                 <input
                   type="date"
                   name="endDate"
                   className={cn(
-                    "w-full border border-gray-300 px-3 py-2",
-                    "rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    "w-full border border-[var(--border)] px-3 py-2",
+                    "rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--ring)]"
                   )}
                 />
               </div>

@@ -25,16 +25,16 @@ function SortableItem({ item }: { item: Location }) {
       {...attributes}
       {...listeners}
       style={{ transform: CSS.Transform.toString(transform), transition }}
-      className="p-4 border rounded-md flex justify-between items-center hover:shadow transition-shadow"
+      className="p-4 border border-[var(--border)] rounded-md flex justify-between items-center hover:shadow-md transition-shadow bg-[var(--card)] text-[var(--card-foreground)]"
     >
       <div>
-        <h4 className="font-medium text-gray-800"> {item.locationTitle}</h4>
-        <p className="text-sm text-gray-500 truncate max-w-xs">
+        <h4 className="font-medium"> {item.locationTitle}</h4>
+        <p className="text-sm text-[var(--muted-foreground)] truncate max-w-xs">
           {" "}
           {`Latitude: ${item.lat}, Longitude: ${item.lng}`}
         </p>
       </div>
-      <div className="text-sm text-gray-600"> Day {item.order}</div>
+      <div className="text-sm text-[var(--muted-foreground)]"> Day {item.order}</div>
     </div>
   );
 }

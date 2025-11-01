@@ -28,7 +28,7 @@ export default async function TripsPage() {
 
   if (!session) {
     return (
-      <div className="flex justify-center items-center h-screen text-gray-700 text-xl">
+      <div className="flex justify-center items-center h-screen text-[var(--muted-foreground)] text-xl">
         {" "}
         Please Sign In.
       </div>
